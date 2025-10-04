@@ -13,32 +13,49 @@ export default function App() {
         return res.json();
       })
       .then((json) => {
-        // This logic for "no data" is correct and passing.
         if (!json || !json.products || json.products.length === 0) {
-          setData([]);
+          setData([]); // no data case
         } else {
-          // FIX: For the success case, set the data state to the actual JSON response.
-          setData(json);
+          setData(json); // success case
         }
       })
       .catch((err) => {
-        // This error handling is correct and passing.
         setError(err.message);
       });
   }, []);
 
+  if (error) {
+    return (
+      <div>
+        <h1>Fetched Data</h1>
+        <pre>An error occurred: {error}</pre>
+      </div>
+    );
+  }
+
+  if (data === null) {
+    return (
+      <div>
+        <h1>Fetched Data</h1>
+        <pre>Loading...</pre>
+      </div>
+    );
+  }
+
+  if (Array.isArray(data) && data.length === 0) {
+    return (
+      <div>
+        <h1>Fetched Data</h1>
+        <pre>No data found</pre>
+      </div>
+    );
+  }
+
+  // success: data is present and non-empty
   return (
     <div>
-      <h1>Fetched Data</h1>
-      {error ? (
-        // This error rendering is correct and passing.
-        <pre>An error occurred: {error}</pre>
-      ) : (
-        <pre>
-          {/* This rendering logic now works for all cases: loading, no data, and success data. */}
-          {data !== null ? JSON.stringify(data, null, 2) : "Loading..."}
-        </pre>
-      )}
+      <h1>Data Fetched from API</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }
