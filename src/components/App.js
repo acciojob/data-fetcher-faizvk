@@ -46,12 +46,11 @@ export default function App() {
     return (
       <div>
         <h1>Fetched Data</h1>
-        <pre>No data found</pre>
+        <pre>[]</pre>
       </div>
     );
   }
 
-  // success: data is present and non-empty
   return (
     <div>
       <h1>Data Fetched from API</h1>
